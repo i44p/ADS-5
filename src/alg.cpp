@@ -39,9 +39,7 @@ int eval(std::string pref) {
         stack.push(left - right);
         break;
       case '*':
-        right = stack.pop();
-        left = stack.pop();
-        stack.push(left * right);
+        stack.push(stack.pop() * stack.pop());
         break;
       case '/':
         right = stack.pop();
