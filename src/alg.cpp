@@ -28,21 +28,28 @@ int eval(std::string pref) {
       stack.push(grabNum(i, pref));
       continue;
     }
+    int left, right;
     switch (pref[i]) {
       case '+':
         stack.push(stack.pop() + stack.pop());
         break;
       case '-':
-        stack.push(stack.pop() - stack.pop());
+        right = stack.pop();
+        left = stack.pop();
+        stack.push(left - right);
         break;
       case '*':
-        stack.push(stack.pop() * stack.pop());
+        right = stack.pop();
+        left = stack.pop();
+        stack.push(left * right);
         break;
       case '/':
-        stack.push(stack.pop() / stack.pop());
+        right = stack.pop();
+        left = stack.pop();
+        stack.push(left / right);
         break;
     }
   }
 
-  return stack.get();
+  return stack.pop();
 }
