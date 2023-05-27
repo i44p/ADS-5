@@ -4,17 +4,17 @@
 
 #include <string>
 
-template <typename T, int capacity>
+template <typename T, const int CAPACITY>
 class TStack {
  private:
-  T arr[capacity];
+  T arr[CAPACITY];
   int top;
 
  public:
   TStack() : top(-1) {}
 
   bool isEmpty() const { return top == -1; }
-  bool isFull() const { return size() == capacity; }
+  bool isFull() const { return size() == CAPACITY; }
 
   T get() const { return isEmpty() ? throw std::string("empty") : arr[top]; }
   T pop() { return isEmpty() ? throw std::string("empty") : arr[top--]; }
