@@ -10,11 +10,11 @@ std::string infx2pstfx(std::string inf) {
   return std::string("");
 }
 
-int grabNum(int &index, std::string str) {
+int grabNum(int *index, std::string str) {
   int ret = 0;
-  while (index < str.size() && isdigit(str[index])) {
+  while (*index < str.size() && isdigit(str[*index])) {
     ret *= 10;
-    ret += str[index] - '0';
+    ret += str[*index] - '0';
     index++;
   }
   return ret;
@@ -25,7 +25,7 @@ int eval(std::string pref) {
 
   for (int i = 0; i < pref.size(); i++) {
     if (isdigit(pref[i])) {
-      stack.push(grabNum(i, pref));
+      stack.push(grabNum(&i, pref));
       continue;
     }
     int left, right;
