@@ -1,14 +1,10 @@
 // Copyright 2021 NNTU-CS
 #include <cctype>
 #include <map>
+#include <sstream>
 #include <string>
 
 #include "tstack.h"
-
-std::string infx2pstfx(std::string inf) {
-  // добавьте код
-  return std::string("");
-}
 
 int grabNum(int *index, std::string str) {
   int ret = 0;
@@ -18,6 +14,46 @@ int grabNum(int *index, std::string str) {
     index++;
   }
   return ret;
+}
+
+int getPrecedence(char c) {
+  static std::string alphabet("-+/*^");
+  return alphabet.find(c);
+}
+
+std::string infx2pstfx(std::string inf) {
+  std::stringstream ss;
+  TStack<char, 100> stack;
+
+  for (int i = 0; i < inf.size(); i++) {
+    if (isdigit(inf[i])) {
+      ss << grabNum(&i, inf) << " ";
+      continue;
+    }
+
+    if ('(' == inf[i]) {
+      stack.push(inf[i]);
+      continue;
+    }
+
+    if (')' == inf[i]) {
+      while (stack.get() != '(') ss << stack.pop() << " ";
+      stack.pop();
+      continue;
+    }
+
+    if (getPrecedence(inf[i]) == std::string::npos) continue;
+
+    while (!stack.isEmpty() && (stack.get() != '(') &&
+           (getPrecedence(stack.get()) >= getPrecedence(inf[i])))
+      ss << stack.pop() << " ";
+
+    stack.push(inf[i]);
+  }
+
+  while (!stack.isEmpty()) ss << stack.pop() << " ";
+
+  return ss.str();
 }
 
 int eval(std::string pref) {
